@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">The Games</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-p="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{url_for('home')}}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('game')}}">Games</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('cadgames')}}">Cadastro</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('apigames')}}">API</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="container" style="background-color: #f0f0f0; border-radius: 8px;">
+    <div class="row">
+        <div class="col-md-6 m-auto"><br>
+            <a href="{{url_for('apigames')}}" class="btn btn-dark">Todos os Jogos</a>
+            <div class="card">
+                <img src="{{ginfo.thumbnail}}" alt="{{ginfo.title}}">
+                <div class="card-body m-auto">
+                    <h3>{{ginfo.title}}</h3>
+                    <p>Gênero: {{ginfo.genre}}</p>
+                    <p>Descrição: {{ginfo.short_description}}</p>
+                    <p>Plataforma: {{ginfo.platform}}</p>
+                    <p>Editora: {{ginfo.publisher}}</p>
+                    <p>Data de Lançamento: {{ginfo.release_date}}</p>
+                    <a href="{{ginfo.freetogame_profile_url}}" class="btn btn-danger">Jogar Agora!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
