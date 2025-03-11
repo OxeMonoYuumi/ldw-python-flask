@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Bem vindo a página de Games</h1>
+    <h2>Jogos irados de 730 A.C.</h2>
+    <hr>
+    <br>
+    {# Comentário em jinja2 #}
+    {% for k, v in games.items() %}
+    {{k}}: {{v}}<br>
+    {% endfor %}
+    <p>O jogo {{games['titulo']}} está sendo jogado por:</p>
+    <p>{{jogadores}}</p>
+    <ol>
+        {% for j in jogadores: %}
+        <li>{{j}}</li>
+        {% endfor %}
+    </ol>
+    <hr>
+    <br>
+    <h4>Entrar no Jogo:</h4>
+    <form action="{{url_for('game')}}" method="POST">
+        <label>Jogador:</label>
+        <input type="text" name="jogador">
+        <input type="submit" value="Entrar">
+    </form>
+    <br>
+    <hr>
+    <p>O jogo {{games['titulo']}} tem {{2025 - games['ano']}} anos.</p>
+    <!-- <a href="/">Voltar</a> -->
+     <!-- <a href="{{url_for('home')}}">Voltar</a>
+     <a href="{{url_for('cadgames')}}">Cadastrar</a> -->
+{% endblock content %}
