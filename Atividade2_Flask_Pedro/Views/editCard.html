@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6">
+    <form action="{{url_for('editcard', id=card.id)}}" method="post">
+        <input type="text" name="name" value="{{card.name}}" class="form-control" required><br>
+        <input type="text" name="type" value="{{card.type}}" class="form-control" required><br>
+        <input type="text" name="color" value="{{card.color}}" class="form-control" required><br>
+        <input type="text" name="rarity" value="{{card.rarity}}" class="form-control" required><br>
+        <input type="number" name="qtd" value="{{card.qtd}}" class="form-control" required><br>
+        <input type="text" name="collection" value="{{card.collection}}" class="form-control" required><br>
+        <br>
+        <input type="submit" value="Editar" class="btn btn-success" onclick="return confirm('Confirma as alterações feitas?')">
+        <a href="{{url_for('cardEstoque')}}"><input type="button" value="Cancelar" class="btn btn-danger"></a>
+    </form>
+</div>
+{% endblock content %}
