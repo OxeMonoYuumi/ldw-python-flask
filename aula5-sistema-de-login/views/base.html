@@ -32,6 +32,22 @@
               <a class="nav-link" href="{{url_for('estoque')}}">Estoque</a>
             </li>
           </ul>
+          <!-- Botão Login/Logout -->
+          <span style="margin-left: auto;">
+            <ul class="navbar-nav">
+              {% if 'user_id' not in session: %}
+              <!-- Usuário não logado -->
+              <li class="nav-item">
+                <button class="btn btn-primary"><a href="{{url_for('login')}}" class="nav-link text-white">Login</a></button>
+              </li>
+              {% else %}
+              <!-- Caso o usuário esteja logado -->
+              <li class="nav-item">
+                <button class="btn btn-primary"><a href="{{url_for('logout')}}" class="nav-link text-white">Sair</a></button>
+              </li>
+              {% endif %}
+            </ul>
+          </span>
         </div>
       </nav>
 
@@ -39,6 +55,18 @@
         <h1 style="text-align: center;">Jogos Irados</h1>
         <hr>
     </header>
+
+    <!-- Acessando a flash message -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+<!-- Messages é um array que possui "category" e "message" -->
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    <!-- Aqui irá aparecer a mensagem -->
+    {{ message }}
+</div> 
+{% endfor %}
+{% endwith %}
     
     {% block content %}
     <!-- Aqui irá o conteúdo das demais páginas -->

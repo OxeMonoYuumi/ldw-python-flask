@@ -19,6 +19,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(dir, 'models
 # Secrete para as flash messages
 app.config['SECRET_KEY'] = 'thegamessecret'
 
+# Define o tempo de duração da sessão
+app.config['PERMANENT_SESSION_LIFETIME'] = 3600
+
 # Iniciar o servidor
 if __name__ == '__main__':
     db.init_app(app=app)

@@ -1,5 +1,5 @@
 import urllib.request
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 # Importando o Model
 from models.database import db,Game,User
 # Esta biblioteca serve para ler uma determinada URL
@@ -18,6 +18,19 @@ gameslist= [{'titulo':'CS-GO',
         'categoria':'FPS'}]
 
 def init_app(app):
+    # Função de Middleware para verificar a autenticação do usuário
+    @app.before_request
+    def check_auth():
+        # Rotas que não precisaram de autenticação
+        routes = ['login','caduser','home']
+        # Se a rota atual não requisitar autenticação, permitir acesso
+        if request.endpoint in routes or request.path.startswith('/static/'):
+            return
+        
+        # Se o usuário não estiver autenticado redireciona para página de login
+        if 'user_id' not in session:
+           return redirect(url_for('login')) 
+    
     # Criando a primeira rota da aplicação
     @app.route('/') # o @ é o decorator e faz uma ligação da função que está abaixo dele, ao usuário acessar uma rota
 
@@ -115,7 +128,28 @@ def init_app(app):
     # Rota de Login
     @app.route('/login', methods=['GET','POST'])
     def login():
+        if request.method == 'POST':
+            email = request.form['email']
+            password = request.form['password']
+            # Buscando o usuário no banco
+            user = User.query.filter_by(email=email).first()
+            # Login bem sucedido
+            if user and check_password_hash(user.password, password):
+                session['user_id'] = user.id
+                session['user_email'] = user.email
+                nickname = user.email.split('@')
+                flash(f'Login bem sucedido! Bem-vindo {nickname[0]}!', 'success')
+                return redirect(url_for('home'))
+            else:
+                flash('Falha no Login, verifique seu nome de usuário e senha.', 'danger')
         return render_template('login.html')
+    
+    # Rota de Logout
+    @app.route('/logout', methods=['GET','POST'])
+    def logout():
+        # Desrtroi a sessão do usuário
+        session.clear()
+        return redirect(url_for('home'))
     
     # Rota de Cadastro
     @app.route('/caduser', methods=['GET','POST'])
